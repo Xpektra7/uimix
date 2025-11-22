@@ -37,7 +37,7 @@ interface CanvasComponentModalProps {
   onClose: () => void;
 }
 
-export const CanvasComponentModal = ({ 
+export const CanvasComponentModal = ({
   component,
   componentName,
   description,
@@ -74,7 +74,7 @@ export const CanvasComponentModal = ({
       'Processing Card': 'registry/default/processing-card/processing-card.tsx',
       'Fallback Card': 'registry/default/fallback-card/fallback-card.tsx',
     };
-    
+
     return nameMap[name] || `registry/default/${name.toLowerCase().replace(/\s+/g, '-')}.tsx`;
   };
 
@@ -141,7 +141,7 @@ export const CanvasComponentModal = ({
       <div className="w-12 h-12 drop-shadow-[0_0_12px_rgba(120,180,255,0.4)]">
         <CustomLoader size="md" />
       </div>
-      
+
       {/* Текст загрузки */}
       <div className="text-white/70 text-sm font-medium">
         Loading...
@@ -150,7 +150,7 @@ export const CanvasComponentModal = ({
   );
 
   return (
-    <motion.div 
+    <motion.div
       className="fixed inset-0 z-50 bg-black/80 backdrop-blur-md flex items-center justify-center"
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
@@ -182,128 +182,137 @@ export const CanvasComponentModal = ({
               {/* Close button */}
               <button
                 onClick={onClose}
-                className="group fixed top-6 right-6 z-20 p-2 bg-background/80 backdrop-blur border border-border rounded-md hover:bg-background/90 transition-colors transition-transform duration-150 ease-out hover:scale-105 active:scale-95"
+                className="group fixed top-6 right-8 z-20 p-3 bg-background/80 backdrop-blur border border-border rounded-md hover:bg-background/90 transition-colors transition-transform duration-150 ease-out hover:scale-105 active:scale-95"
                 aria-label="Close modal"
                 title="Close modal"
               >
                 <X className="h-4 w-4 transition-transform duration-200 ease-out group-hover:rotate-90" />
               </button>
 
+
               {/* Show Code button */}
               <button
                 onClick={() => setShowCode(!showCode)}
-                className={`group fixed top-6 left-6 z-20 p-3 bg-background/80 backdrop-blur border border-border rounded-md hover:bg-background/90 transition-all duration-300 ease-out hover:scale-105 active:scale-95 ${
-                  showCode ? 'bg-primary/20 border-primary/30' : ''
-                }`}
+                className={`group fixed top-6 left-6 z-20 p-3 bg-background/80 backdrop-blur border border-border rounded-md hover:bg-background/90 transition-all duration-300 ease-out hover:scale-105 active:scale-95 ${showCode ? 'hidden bg-primary/20 border-primary/30' : ''
+                  }`}
                 aria-label={showCode ? "Hide code" : "Show code"}
                 title={showCode ? "Hide code" : "Show code"}
               >
-                <Code className={`h-4 w-4 transition-all duration-300 ease-out group-hover:scale-110 ${
-                  showCode ? 'text-primary' : ''
-                }`} />
+                <Code className={`h-4 w-4 transition-all duration-300 ease-out group-hover:scale-110 ${showCode ? 'text-primary' : ''
+                  }`} />
               </button>
 
-        {/* Modal content - fullscreen */}
-        <div className="w-full h-full bg-background overflow-hidden">
-          <div className={`flex h-full transition-all duration-500 ease-out ${
-            showCode ? 'flex-row' : 'flex-col justify-center items-center'
-          }`}>
-            {/* Left side - Code and Installation (animated) */}
-            <div 
-              className={`overflow-y-auto space-y-6 border-r border-border transition-all duration-500 ease-out ${
-                showCode 
-                  ? 'w-1/2 p-6 opacity-100 translate-x-0' 
-                  : 'w-0 p-0 opacity-0 -translate-x-full overflow-hidden'
-              }`}
-              style={{
-                willChange: 'transform, width, opacity',
-                transform: 'translate3d(0, 0, 0)', // Force hardware acceleration
-              }}
-            >
-              {/* Header */}
-              <div className="space-y-2">
-                <h2 className="text-2xl font-bold">{componentName}</h2>
-                <p className="text-muted-foreground">{description}</p>
-              </div>
+              {/* Modal content - fullscreen */}
+              <div className="w-full h-full bg-background overflow-hidden">
+                <div className={`flex h-full transition-all duration-500 ease-out ${showCode ? 'flex-row' : 'flex-col justify-center items-center'
+                  }`}>
+                  {/* Left side - Code and Installation (animated) */}
+                  <div
+                    className={`overflow-y-auto space-y-6 border-r border-border transition-all duration-500 ease-out ${showCode
+                      ? 'w-2/5 p-6 opacity-100 translate-x-0'
+                      : 'w-0 p-0 opacity-0 -translate-x-full overflow-hidden'
+                      }`}
+                    style={{
+                      willChange: 'transform, width, opacity',
+                      transform: 'translate3d(0, 0, 0)', // Force hardware acceleration
+                    }}
+                  >
+                    {/* Header */}
+                    <div className="flex justify-between items-center w-full">
+                      <div className="space-y-2">
+                        <h2 className="text-2xl font-bold">{componentName}</h2>
+                        <p className="text-sm text-muted-foreground">{description}</p>
+                      </div>
+                      {/* Show Code button */}
+                      <button
+                        onClick={() => setShowCode(!showCode)}
+                        className={`group p-2 bg-background/80 backdrop-blur border border-border rounded-md hover:bg-background/90 transition-all duration-300 ease-out hover:scale-105 active:scale-95 ${showCode ? 'bg-primary/20 border-primary/30' : ''
+                          }`}
+                        aria-label={showCode ? "Hide code" : "Show code"}
+                        title={showCode ? "Hide code" : "Show code"}
+                      >
+                        <X className={`h-4 w-4 transition-all duration-300 ease-out group-hover:rotate-90 ${showCode ? 'text-primary' : ''
+                          }`} />
+                      </button>
+                    </div>
 
-              {/* Installation Section */}
-              <div className="space-y-4">
-                <h3 className="text-lg font-semibold">Installation</h3>
-                
-                {/* CLI Installation */}
-                <div className="space-y-2">
-                  <h4 className="text-sm font-medium text-muted-foreground">CLI Installation</h4>
-                  <DynamicCodeBlock
-                    lang="bash"
-                    code={`npx shadcn@latest add @uimix/${componentName.toLowerCase().replace(/\s+/g, '-')}`}
-                  />
-                </div>
-                
-                {/* Manual Installation */}
-                <div className="space-y-2">
-                  <h4 className="text-sm font-medium text-muted-foreground">Manual Installation</h4>
-                  <p className="text-sm text-muted-foreground">Copy and paste the following code:</p>
+                    {/* Installation Section */}
+                    <div className="space-y-4">
+                      <h3 className="text-lg font-semibold">Installation</h3>
+
+                      {/* CLI Installation */}
+                      <div className="space-y-2">
+                        <h4 className="text-sm font-medium text-muted-foreground">CLI Installation</h4>
+                        <DynamicCodeBlock
+                          lang="bash"
+                          code={`npx shadcn@latest add @uimix/${componentName.toLowerCase().replace(/\s+/g, '-')}`}
+                        />
+                      </div>
+
+                      {/* Manual Installation */}
+                      <div className="space-y-2">
+                        <h4 className="text-sm font-medium text-muted-foreground">Manual Installation</h4>
+                        <p className="text-sm text-muted-foreground">Copy and paste the following code:</p>
+                      </div>
+                    </div>
+
+                    {/* Code Section */}
+                    <div className="space-y-2">
+                      <h4 className="text-sm font-medium text-muted-foreground">Component Code</h4>
+                      {err ? (
+                        <div className="text-destructive">Could not load component source: {err}</div>
+                      ) : !code ? (
+                        <div className="text-muted-foreground">Loading source…</div>
+                      ) : (
+                        <ComponentCode componentPath={componentPath} />
+                      )}
+                    </div>
+                  </div>
+
+                  {/* Right side - Preview */}
+                  <div
+                    className={`transition-all duration-500 ease-out ${showCode
+                      ? 'w-3/5 p-6 overflow-y-auto'
+                      : 'w-full h-full flex items-center justify-center p-0'
+                      }`}
+                    style={{
+                      willChange: 'transform, width',
+                      transform: 'translateZ(0)', // Force hardware acceleration
+                    }}
+                  >
+                    {!showCode ? (
+                      // Fullscreen mode - centered component at full size
+                      <div className="w-full h-full flex flex-col items-center justify-center relative overflow-auto">
+                        {/* Component title - positioned absolutely to not affect centering */}
+                        <div className="absolute top-0 left-1/2 transform -translate-x-1/2 mt-4">
+                          <h3 className="text-lg font-semibold text-center">{componentName}</h3>
+                        </div>
+
+                        {/* Centered component */}
+                        <div className="flex justify-center w-full h-full">
+                          <ComponentPreview
+                            component={component}
+                            scale={1}
+                            hideFullscreen
+                          />
+                        </div>
+                      </div>
+                    ) : (
+                      // Code mode - side by side
+                      <div className="space-y-4">
+                        <h3 className="text-lg font-semibold">Preview</h3>
+                        <div className="relative">
+                          <ComponentPreview
+                            component={component}
+                            scale={scale}
+                            hideFullscreen
+                          />
+                        </div>
+                      </div>
+                    )}
+                  </div>
                 </div>
               </div>
-
-              {/* Code Section */}
-              <div className="space-y-2">
-                <h4 className="text-sm font-medium text-muted-foreground">Component Code</h4>
-                {err ? (
-                  <div className="text-destructive">Could not load component source: {err}</div>
-                ) : !code ? (
-                  <div className="text-muted-foreground">Loading source…</div>
-                ) : (
-                  <ComponentCode componentPath={componentPath} />
-                )}
-              </div>
-            </div>
-
-            {/* Right side - Preview */}
-            <div 
-              className={`transition-all duration-500 ease-out ${
-                showCode 
-                  ? 'w-1/2 p-6 overflow-y-auto' 
-                  : 'w-full h-full flex items-center justify-center p-0'
-              }`}
-              style={{
-                willChange: 'transform, width',
-                transform: 'translateZ(0)', // Force hardware acceleration
-              }}
-            >
-              {!showCode ? (
-                // Fullscreen mode - centered component at full size
-                <div className="w-full h-full flex flex-col items-center justify-center relative">
-                  {/* Component title - positioned absolutely to not affect centering */}
-                  <div className="absolute top-0 left-1/2 transform -translate-x-1/2 mt-4">
-                    <h3 className="text-lg font-semibold text-center">{componentName}</h3>
-                  </div>
-                  
-                  {/* Centered component */}
-                  <div className="flex items-center justify-center w-full h-full">
-                    <ComponentPreview 
-                      component={component} 
-                      scale={1} 
-                      hideFullscreen 
-                    />
-                  </div>
-                </div>
-              ) : (
-                // Code mode - side by side
-                <div className="space-y-4">
-                  <h3 className="text-lg font-semibold">Preview</h3>
-                  <div className="relative">
-                    <ComponentPreview 
-                      component={component} 
-                      scale={scale} 
-                      hideFullscreen 
-                    />
-                  </div>
-                </div>
-              )}
-            </div>
-          </div>
-        </div>
             </motion.div>
           )}
         </AnimatePresence>
